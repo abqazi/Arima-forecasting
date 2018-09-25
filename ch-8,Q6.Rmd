@@ -1,0 +1,57 @@
+---
+title: "ch-8,Q6"
+author: "HannanQ"
+date: "May 4, 2017"
+output: html_document
+---
+
+```#chapter 8
+#Q6
+
+
+#(a)
+d1=wmurders
+tsdisplay(d1)
+plot(d1)
+#not stationary
+dd=diff(wmurders)
+plot(dd)
+tsdisplay(dd)
+adf.test(dd)
+kpss.test(dd)
+#not conclusively stationary
+
+dif2=diff(diff(wmurders))
+adf.test(dif2)
+kpss.test(dif2)
+#both root tests indicate a stationary series
+#since we took 2 differences lets take d=2 and since there is a spike at in the plots lets take p as 1 first and then q
+#and finally both p and q as 1 to compare all
+k1=arima(wmurders,order=c(1,2,0))
+tsdisplay(residuals(k1))
+
+k2=arima(wmurders,order=c(0,2,1))
+tsdisplay(residuals(k2))
+
+k3=arima(wmurders,order=c(1,2,1))
+tsdisplay(residuals(k3))
+
+#both k2 and k3 seem good to me
+
+#(b): Since d>0 there is no need to include constatnts
+
+#(e and f)
+#forecasts, predictions and plots for 2 models
+fore0=forecast(k2,h=3)
+summary(fore0)
+plot(fore0)
+
+fore=forecast(k3,h=3)
+summary(fore)
+plot(fore)
+
+#(g)
+
+auto.arima(wmurders) 
+#autoarima returned one of the models i chose i.e. k3 which had (1,2,1) 
+```
